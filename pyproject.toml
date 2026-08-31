@@ -1,0 +1,6 @@
+[project]
+name = "inference-benchmarks"
+version = "0.1.0"
+description = "LLM inference benchmarking suite — text-to-SQL workload across serverless platforms"
+requires-python = ">=3.11"
+dependencies = ["openai", "ipython", "pandas", "pydantic", "python-dotenv"]

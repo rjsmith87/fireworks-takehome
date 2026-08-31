@@ -1,0 +1,42 @@
+{
+  "name": "Inference Benchmarks",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+
+  // Run setup.sh once when the codespace is first created — installs deps
+  // into .venv and downloads data/Chinook.db.
+  "postCreateCommand": "./setup.sh",
+
+  // After every start, remind the user to set keys for whichever platform(s)
+  // they want to exercise. BASETEN_API_KEY drives the default Live Demo and
+  // the Baseten sweeps; FIREWORKS_API_KEY drives the Fireworks-side scripts.
+  "postStartCommand": "echo '\\n→ Next step: paste keys into .env, e.g.\\n    echo \"BASETEN_API_KEY=...\" >> .env\\n    echo \"FIREWORKS_API_KEY=fw_...\" >> .env\\nor set them as Codespaces user secrets in github.com/settings/codespaces.\\n\\nThen:\\n    source .venv/bin/activate\\n    python -m src.cli\\n\\n— or — serve the dashboard locally:\\n    python3 -m http.server 8000  (auto-forwards to your browser)\\n'",
+
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "Dashboard",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/workspaces/inference-benchmarks/.venv/bin/python",
+        "python.terminal.activateEnvironment": true
+      }
+    }
+  },
+
+  // Pull keys from Codespaces user secrets if set — see
+  // https://github.com/settings/codespaces. Falls through harmlessly if a
+  // secret isn't set; the user can also write to .env manually.
+  "remoteEnv": {
+    "BASETEN_API_KEY": "${localEnv:BASETEN_API_KEY}",
+    "FIREWORKS_API_KEY": "${localEnv:FIREWORKS_API_KEY}"
+  }
+}
